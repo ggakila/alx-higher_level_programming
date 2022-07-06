@@ -1,17 +1,10 @@
 #!/usr/bin/python3
-"""
-    8-class_to_json Module
-"""
+'''function that returns the dictionary description with simple data structure
+'''
 
 
 def class_to_json(obj):
-    """
-        the dictionary description with simple data structure
-        for JSON serialization of an object
-
-        Args:
-            obj: initial object
-    """
-    if hasattr(obj, '__dict__'):
-        return obj.__dict__.copy()
-    return {}
+    '''module class_to_json
+       returns builds a dictionary
+    '''
+    return obj.__dict__

@@ -1,53 +1,37 @@
 #!/usr/bin/python3
-"""
-    9-student Module
-"""
+"""Defines a class Student."""
 
 
 class Student:
-    """
-        Student class
-    """
+    """Represent a student."""
 
-    def __init__(self, first_name, last_name, age) -> None:
-        """
-            initialization special method
-
-            Args:
-                first_name: first name of student
-                last_name: last name of student
-                age: age of student
+    def __init__(self, first_name, last_name, age):
+        """Initialize a new Student.
+        Args:
+            first_name (str): The first name of the student.
+            last_name (str): The last name of the student.
+            age (int): The age of the student.
         """
         self.first_name = first_name
         self.last_name = last_name
         self.age = age
 
     def to_json(self, attrs=None):
+        """Get a dictionary representation of the Student.
+        If attrs is a list of strings, represents only those attributes
+        included in the list.
+        Args:
+            attrs (list): (Optional) The attributes to represent.
         """
-            Retrieves dictionary representation of Student
-
-            Args:
-                attrs: initial list
-
-            Returns:
-                a dictionary representation of a Student
-        """
-        if attrs is None or not all([type(attr) is str for attr in attrs]):
-            return self.__dict__.copy()
-
-        dic_repr = dict()
-        for key, value in self.__dict__.items():
-            if key in attrs:
-                dic_repr[key] = value
-
-        return dic_repr
+        if (type(attrs) == list and
+                all(type(ele) == str for ele in attrs)):
+            return {k: getattr(self, k) for k in attrs if hasattr(self, k)}
+        return self.__dict__
 
     def reload_from_json(self, json):
+        """Replace all attributes of the Student.
+        Args:
+            json (dict): The key/value pairs to replace attributes with.
         """
-            replaces all attributes of the Student instance
-
-            Args:
-                json: initial dictionary
-        """
-        for key, value in json.items():
-            self.__dict__[key] = value
+        for k, v in json.items():
+            setattr(self, k, v)
