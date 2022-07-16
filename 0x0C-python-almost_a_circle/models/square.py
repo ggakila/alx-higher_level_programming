@@ -1,64 +1,89 @@
 #!/usr/bin/python3
-"""Define Rectangle Class
 """
-
+    square Module
+"""
 from models.rectangle import Rectangle
 
 
 class Square(Rectangle):
-    """Module Representation of Square
-"""
+    """
+        Square class
+    """
 
     def __init__(self, size, x=0, y=0, id=None):
-        """Initialization a Square
+        """
+            Initializing special method
+
+            Args:
+                size: sixe of square
+                x: coordinate x
+                y: coordinate y
+                id: number of objects created
         """
         super().__init__(size, size, x, y, id)
 
+    def __str__(self) -> str:
+        """
+            string representation special method
+
+            Returns:
+                string representation of object
+        """
+        line = '[{}] ({}) {}/{} - {}'
+        idd, xx, yy, si = self.id, self.x, self.y, self.size
+
+        return line.format(self.__class__.__name__, idd, xx, yy, si)
+
     @property
     def size(self):
-        """module Square size getter
+        """
+            gets the custom size
         """
         return self.width
 
     @size.setter
     def size(self, value):
-        """module Square size setter
-        """
+
         self.width = value
         self.height = value
 
-    def __str__(self):
-        """module string represation of square
-        """
-        return "[Square] ({:d}) {:d}/{:d} - {:d}".format(self.id,
-                                                         self.x,
-                                                         self.y,
-                                                         self.width)
-
     def update(self, *args, **kwargs):
-        """module update square
         """
-        if len(args):
-            for i, arg in enumerate(args):
-                if i == 0:
-                    self.id = arg
-                elif i == 1:
-                    self.size = arg
-                elif i == 2:
-                    self.x = arg
-                elif i == 3:
-                    self.y = arg
+            updates the square instance
+        """
+        i = 0
+        if len(args) != 0:
+            if len(args) == 1:  # only one arg to set
+                setattr(self, "id", args[0])
+                return
+
+            for num, key in enumerate(self.__dict__.keys()):
+                try:
+                    if num == 1:
+                        self.__dict__[key] = args[i]
+                        continue
+                    elif num == 2:
+                        self.__dict__[key] = args[i]
+                        i += 1
+                        continue
+
+                    self.__dict__[key] = args[i]
+                    i += 1
+                except IndexError:
+                    break
         else:
             for key, value in kwargs.items():
-                if hasattr(self, key) is True:
-                    setattr(self, key, value)
+                setattr(self, key, value)
 
     def to_dictionary(self):
-        """retrun dictonary
         """
-        return {
-            "id": self.id,
-            "size": self.size,
-            "x": self.x,
-            "y": self.y
-        }
+            returns the dictionary representation of a Square
+        """
+        to_dic = dict()
+
+        to_dic['size'] = self.size
+        to_dic['id'] = self.id
+        to_dic['x'] = self.x
+        to_dic['y'] = self.y
+
+        return to_dic
